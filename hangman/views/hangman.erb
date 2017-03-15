@@ -1,0 +1,60 @@
+<h2> Hangman Game!</h2>
+
+<form  >
+<input type="text" name="letter" ><input type="submit" value="guess">
+</form>
+
+
+<% if  !params.has_key?("letter")%>
+	
+<h3> <%= game.display_result %></h3>
+<h3> You have <%= game.guesses%> guesses left!</h3>
+<% end %>
+
+
+<% if params.has_key?("letter") %>
+
+<% if params["letter"] == game.secret_word %>
+	
+<% redirect to("/?game=new&word=victory") %>
+
+
+
+<% end %>
+	<% game.check_letter(params["letter"])	 	%>
+	<% game.guesses -= 1 	 	%>
+<h3> You have <%= game.guesses%> guesses left!</h3>
+ <h3> <%= game.display_result %></h3><br><br>
+ <h3>  <%= game.incorrect_letters.join("  ") 	 	%></h3>
+
+
+<% if game.guesses == 0 %>
+
+<% word = game.secret_word 	 	%>
+
+
+<% redirect to("/?game=new&word=#{word}") %>
+<% end %>
+
+<% end %>
+
+<% if params["game"] == "new" && params["word"] != "victory"%>
+		
+<p><strong>Sorry bro!</strong></p>
+<p>The word was <em> <%= word%></em></p>
+<p><b>Try again!</b></p>	
+	
+	
+	<% end %>	
+
+
+<% if params["word"] == "victory" %>
+	
+<h2>  Wow!! you are victorious!!</h2>
+
+<p><b>Do it again!! </b></p>
+
+
+<% end %>
+
+
